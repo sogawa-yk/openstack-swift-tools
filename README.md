@@ -1,6 +1,6 @@
 # openstack_swift_gui
 
-A new Flutter project.
+
 
 ## Getting Started
 
