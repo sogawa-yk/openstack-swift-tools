@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:openstack_swift_gui/fileview.dart';
+import 'package:openstack_swift_gui/main.dart';
+import 'package:openstack_swift_gui/view/filelist.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:openstack_swift_gui/states/states.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends ConsumerWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _login_id = '';
   String _login_pw = '';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userStateMethods = ref.read(userProvider.notifier);
     return Form(
         key: _formKey,
         child: Container(
@@ -53,12 +50,11 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           // Process data.
-                          print(_login_id);
-                          print(_login_pw);
+                          userStateMethods.set_user_info(_login_id, _login_pw);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => FileView()));
+                                  builder: (context) => FileList()));
                         }
                       },
                       child: const Text('Submit'),

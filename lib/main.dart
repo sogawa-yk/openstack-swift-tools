@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:openstack_swift_gui/login.dart';
-import 'package:openstack_swift_gui/fileview.dart';
+import 'package:openstack_swift_gui/view/login_page.dart';
+import 'package:openstack_swift_gui/states/states.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() => runApp(const MyApp());
+final userProvider = StateNotifierProvider((ref) => UserStateNotifier());
+
+void main() => runApp(const ProviderScope(child: MyApp()));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
-        body: const LoginPage(),
+        body: LoginPage(),
       ),
     );
   }
