@@ -9,7 +9,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openstack_swift_gui/main.dart';
-import 'package:provider/provider.dart';
+import 'package:openstack_swift_gui/models/user.dart';
+import 'dart:async';
+import 'dart:io';
+
 import 'package:openstack_swift_gui/states/states.dart';
 
 // ダミー表示用のファイルリスト
@@ -20,8 +23,9 @@ class FileList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userStateMethods = ref.read(userProvider.notifier);
-    userStateMethods.get_auth_token().then((value) => print(value));
+    //final userStateMethods = ref.listen(userProvider.notifier, (User a, User b));
+    // userStateMethods.get_auth_token().then((value) => print(value));
+    // userStateMethods.get_file_list().then(((value) => print(value)));
     return Text('TEST');
     // return Scaffold(
     //   appBar: AppBar(

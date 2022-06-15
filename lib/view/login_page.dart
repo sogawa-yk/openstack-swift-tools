@@ -1,8 +1,20 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:openstack_swift_gui/main.dart';
 import 'package:openstack_swift_gui/view/filelist.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openstack_swift_gui/states/states.dart';
+import 'package:openstack_swift_gui/models/user.dart';
+
+
+
+//TODO
+// FutureProviderの使いかたをしっかり確認する。https://flutternyumon.com/riverpod-how-to-use-futureprovider/
+
+
+
+
 
 class LoginPage extends ConsumerWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -11,7 +23,7 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userStateMethods = ref.read(userProvider.notifier);
+    //final userStateMethods = ref.read(userProvider.notifier);
     return Form(
         key: _formKey,
         child: Container(
@@ -50,11 +62,23 @@ class LoginPage extends ConsumerWidget {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           // Process data.
-                          userStateMethods.set_user_info(_login_id, _login_pw);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FileList()));
+                          User entered_user = User(
+                              id: _login_id,
+                              pw: _login_pw); // freezedで複数の引数を一つのクラスにまとめる
+                          final future = ref.watch(UserProvider(entered_user));
+                          future.when(
+                              loading: () => print('LOADING'),
+                              error: (err, stack) => print('ERROR'),
+                              data: (data) => {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FileList()))
+                              });
+
+                          /// .familyを使ってプロバイダに引数を渡す
+                          print(future);
+
                         }
                       },
                       child: const Text('Submit'),

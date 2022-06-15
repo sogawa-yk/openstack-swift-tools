@@ -43,10 +43,11 @@ Future<String?> authentication(String id, String pw) async {
 //   print(token.toString());
 // }
 
-Future<String> showListObjects(String token) async {
+Future<String?> showListObjects(String token) async {
   const url =
       'http://192.168.2.10:8080/v1/AUTH_1c1000fd2fc04cb2831a5e163e8802ea/test?format=json';
   final header = {'X-Auth-Token': token};
+  print(header);
 
   var response = await http.get(Uri.parse(url), headers: header);
 
@@ -56,6 +57,5 @@ Future<String> showListObjects(String token) async {
     return decodedJson['name'];
   } else {
     print(response.statusCode);
-    return 
   }
 }
